@@ -84,7 +84,7 @@ Remember, **doAsyncStuff** is an asynchronous function:
 
 1. **getCoffee** will be added to the callstack .
 2. you will see in the log : **Getting Coffee ...**
-3. **doAsyncStuff** is added to the call stack, but since it's asynchronous, setTimeout returns immediately. The browser handles the callback, and both **setTimeout** and **doAsyncStuff** are removed from the call stack.
+3. **doAsyncStuff** is added to the call stack, but since setTimeout is asynchronous, it returns immediately. The browser handles the callback, and both **setTimeout** and **doAsyncStuff** are removed from the call stack.
 4. you will see in the log : **Coffee is available**
 5. the function **getCoffee** will be removed from the callstack
 6. the function **getMeMyPhone** will be added from the callstack
@@ -92,3 +92,34 @@ Remember, **doAsyncStuff** is an asynchronous function:
 8. the function **getMeMyPhone** will be removed from the callstack
 9. The browser moves the callback from **setTimeout** to the **Task queue**. The **Event queue** then adds it back to the call stack, where it is executed and removed.
 
+## Promise code example : 
+```javascript
+console.log("fetching")
+setTimeout(() => {
+    console.log("preparing api tokens")
+}, 100);
+
+Promise.resolve().then(() => {
+    console.log("step 1")
+}).then(() => {
+    console.log("step 2")
+})
+
+console.log("end fetching")
+// output -------------------------------------
+/*
+fetching
+end fetching
+step 1
+step 2
+preparing api tokens
+*/
+```
+1. you will see in the log : **fetching**
+2. you will see in the log : **end fetching**
+3. **setTimeout**  will be added to the callstack  but since setTimeout is asynchronous, it returns immediately. The browser handles the callback, and  **setTimeout**  is removed from the call stack.
+4. The browser moves the callback from **setTimeout** to the **Task queue**. The **Event queue** then adds it back to the call stack, where it is executed and removed.
+5. **Promise** is will be processed like setTimeout but the callback will be moved to **Microtask queue** .
+6. The **event loop** will execute the callback from the **Microtask queue** first and then move to  in **Task queue**.
+7. so in the logs you will see : **step 1** and **step 2**
+8. and then you will see : **preparing api tokens**
