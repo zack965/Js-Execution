@@ -207,7 +207,7 @@ undefined
 2. asyncLog logs "Getting Coffee ..." and resolves its promise. The resolution is placed in the Microtask Queue, and the Event Loop will eventually move this resolution to the call stack for execution.
 3. asyncLog is removed from the call stack.
 4. doAsyncStuff is then added to the call stack. It executes asyncLog in the same manner, and once the promise resolves, its then handler is added to the microtask queue.
-5. The microtask queue is processed next. Here, the resolution of the promise triggers the continuation of doAsyncStuff.
+5. The microtask queue is moved to the callstack by the eventloop and execute it.  the resolution of the promise triggers the continuation of doAsyncStuff.
 6. After the promise resolves, doAsyncStuff resumes and completes its execution. It is then removed from the call stack.
 7. asyncLog will be processed as before.
 8. Since getCoffee() is an async function and returns a promise, once the promise resolves, you will see the output of the function getMeMyPhone in the log, after it has been added to the call stack, executed, and removed from the call stack.
