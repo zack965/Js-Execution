@@ -1,0 +1,1 @@
+# How javascript code is being executed ? 
